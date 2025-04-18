@@ -1,0 +1,10 @@
+/* src/globals.css or src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add any custom base styles below if needed */
+body {
+  /* Example: smooth scrolling */
+  scroll-behavior: smooth;
+}

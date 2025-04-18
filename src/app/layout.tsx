@@ -1,9 +1,7 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css"; // Ensure globals.css (with Tailwind directives) is imported
-
-// Import layout components
+import "./globals.css";
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
@@ -21,16 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* Apply dark theme background and default text color */}
       <body className={`${inter.className} flex flex-col min-h-screen bg-background text-text`}>
-        {/* Header will be present on all pages by default */}
         <Header />
-
-        {/* Main content area */}
+        {/* Container/padding can remain here or be moved to specific pages */}
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {children}
         </main>
-
-        {/* Footer will be present on all pages by default */}
         <Footer />
       </body>
     </html>

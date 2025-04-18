@@ -1,8 +1,9 @@
 // src/store/userStore.ts
 import { create } from 'zustand';
 
-// Define the shape of the user object (can be expanded later)
-interface User {
+// Define the shape of the user object
+// --- ADD export HERE ---
+export interface User {
   id: string;
   email: string;
   // Add other relevant user properties here
@@ -11,12 +12,12 @@ interface User {
 // Define the interface for the store's state
 interface UserState {
   isAuthenticated: boolean;
-  user: User | null;
+  user: User | null; // Uses the User interface
 }
 
 // Define the interface for the store's actions
 interface UserActions {
-  login: (userData: User) => void;
+  login: (userData: User) => void; // Uses the User interface
   logout: () => void;
   // Potentially add actions like setUser, checkAuthStatus etc. later
 }
@@ -32,5 +33,7 @@ const useUserStore = create<UserState & UserActions>((set) => ({
   logout: () => set({ isAuthenticated: false, user: null }),
 }));
 
+// Default export is the hook
 export default useUserStore;
 
+// No need to export UserState or UserActions unless used directly elsewhere

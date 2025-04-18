@@ -4,32 +4,32 @@ import Link from 'next/link';
 
 const Header: React.FC = () => {
   return (
-    <header className="bg-background shadow-md sticky top-0 z-50">
+    // Use surface color for background, add bottom border
+    <header className="bg-surface shadow-md sticky top-0 z-50 border-b border-border">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo/Brand Name */}
+        {/* Use primary/accent color for brand */}
         <Link href="/" className="text-2xl font-bold text-primary">
-          NotifyME
+          Notify<span className="text-accent">ME</span>
         </Link>
 
-        {/* Navigation Links (Example for public site) */}
-        {/* We will conditionally render different links for logged-in users later */}
         <div className="hidden md:flex items-center space-x-6">
+          {/* Use default text color, hover with primary */}
           <Link href="/#features" className="text-text hover:text-primary transition-colors">
             Features
           </Link>
           <Link href="/#how-it-works" className="text-text hover:text-primary transition-colors">
             How It Works
           </Link>
-          {/* Add other public links as needed */}
-          <Link href="/auth/login" className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition-colors">
+          {/* Buttons use primary/accent colors */}
+          <Link href="/auth/login" className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition-colors text-sm font-medium">
             Login
           </Link>
-          <Link href="/auth/signup" className="bg-accent text-white px-4 py-2 rounded hover:bg-accent-dark transition-colors">
+          <Link href="/auth/signup" className="bg-accent text-white px-4 py-2 rounded-md hover:bg-accent-dark transition-colors text-sm font-medium">
             Sign Up
           </Link>
         </div>
 
-        {/* Mobile Menu Button (placeholder logic) */}
+        {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button className="text-text hover:text-primary focus:outline-none">
             {/* Replace with an actual SVG icon later */}
