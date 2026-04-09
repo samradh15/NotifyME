@@ -1,6 +1,7 @@
 // src/components/marketing/TestimonialsSection.tsx
 'use client';
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 // Using UserCircleIcon as a placeholder for avatars
 import { UserCircleIcon, StarIcon } from '@heroicons/react/24/solid';
@@ -28,7 +29,7 @@ const testimonials = [
   },
   {
     id: 2,
-    quote: "As someone less tech-savvy, I feel much safer online now. The alerts are clear, and knowing there's guided help available if something happens is reassuring.",
+    quote: "As someone less tech-savvy, I feel much safer online now. The alerts are clear, and knowing there&rsquo;s guided help available if something happens is reassuring.",
     name: "Sarah K.",
     role: "Small Business Owner",
     avatar: null,
@@ -66,7 +67,7 @@ const TestimonialsSection: React.FC = () => {
           className="text-lg text-text-light mb-12 md:mb-16 max-w-2xl mx-auto"
           variants={testimonialVariants}
         >
-          Hear what people are saying about NotifyME's real-time protection.
+          Hear what people are saying about NotifyME&rsquo;s real-time protection.
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -88,13 +89,19 @@ const TestimonialsSection: React.FC = () => {
 
               {/* Quote */}
               <blockquote className="text-text-light italic mb-6 flex-grow">
-                "{testimonial.quote}"
+                &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
 
               {/* Author Info */}
               <div className="flex items-center mt-auto">
                  {testimonial.avatar ? (
-                    <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4 object-cover" />
+                    <Image
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      width={48}
+                      height={48}
+                      className="rounded-full mr-4 object-cover"
+                    />
                   ) : (
                     <UserCircleIcon className="w-12 h-12 text-gray-500 mr-4 flex-shrink-0" />
                   )}

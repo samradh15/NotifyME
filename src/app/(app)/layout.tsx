@@ -2,7 +2,6 @@
 import React from 'react';
 import Sidebar from '@/components/layout/Sidebar';
 import ProtectedRoute from '../auth/ProtectedRoute'; // Keep using the alias
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function AppLayout({
   children,

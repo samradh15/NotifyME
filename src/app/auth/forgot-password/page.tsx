@@ -40,11 +40,13 @@ export default function ForgotPasswordPage() {
       console.log("Password reset email request successful.");
       setIsEmailSent(true); // Show success message
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Forgot password page error:", error);
+      const fallbackMessage = "Failed to send reset instructions.";
+      const message = error instanceof Error ? error.message || fallbackMessage : fallbackMessage;
       setError("root.serverError", {
           type: "manual",
-          message: error.message || "Failed to send reset instructions.",
+          message,
       });
     }
   };
@@ -57,7 +59,7 @@ export default function ForgotPasswordPage() {
             Forgot your password?
           </h2>
           <p className="mt-2 text-center text-sm text-text-light">
-            Enter your email address below, and we'll send you instructions to reset your password.
+            Enter your email address below, and we&rsquo;ll send you instructions to reset your password.
           </p>
         </div>
 

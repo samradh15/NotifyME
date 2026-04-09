@@ -44,12 +44,14 @@ export default function LoginPage() {
       // Redirect to the dashboard
       router.push('/dashboard'); // Or redirect based on query params if needed
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Login page error:", error);
+      const fallbackMessage = "Login failed. Please check credentials.";
+      const message = error instanceof Error ? error.message || fallbackMessage : fallbackMessage;
       // Use error message from the service/API response
       setError("root.serverError", {
           type: "manual",
-          message: error.message || "Login failed. Please check credentials.",
+          message,
       });
     }
   };

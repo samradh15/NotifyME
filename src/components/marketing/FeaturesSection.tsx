@@ -89,7 +89,7 @@ const FeaturesSection: React.FC = () => {
                Live Threat Assistant
              </h3>
              <p className="text-lg text-text-light">
-               Don't face the aftermath alone. Engage instantly with our AI assistant via chat for personalized, step-by-step recovery guidance.
+               Don&rsquo;t face the aftermath alone. Engage instantly with our AI assistant via chat for personalized, step-by-step recovery guidance.
              </p>
              <ul className="space-y-3 pt-2">
                <FeatureListItem icon={ArrowPathIcon} colorClass="text-accent">

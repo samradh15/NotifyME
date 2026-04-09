@@ -18,7 +18,7 @@ export default function DashboardPage() {
           Welcome back, {user?.email ? user.email.split('@')[0] : 'User'}! {/* Display username/email part */}
         </h1>
         <p className="text-text-light mt-1">
-          Here's your scam defense overview.
+          Here&rsquo;s your scam defense overview.
         </p>
       </div>
 

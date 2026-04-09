@@ -37,7 +37,7 @@ const PricingSection: React.FC = () => {
           className="text-lg text-text-light mb-12 md:mb-16 max-w-2xl mx-auto"
           variants={cardVariants}
         >
-          Start protecting yourself today. Choose the plan that's right for you.
+          Start protecting yourself today. Choose the plan that&rsquo;s right for you.
           {/* Or: "Currently in Beta - Start protecting yourself for free today." */}
         </motion.p>
 
@@ -137,4 +137,3 @@ const PricingSection: React.FC = () => {
 };
 
 export default PricingSection;
-

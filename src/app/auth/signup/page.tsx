@@ -51,19 +51,21 @@ export default function SignupPage() {
       // Redirect to login page after successful signup
       router.push('/auth/login?signup=success'); // Add query param for potential success message
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Signup page error:", error);
+      const fallbackMessage = "Signup failed. Please try again.";
+      const message = error instanceof Error ? error.message || fallbackMessage : fallbackMessage;
       // Check for specific error messages (e.g., email exists) from the backend
-      if (error.message && error.message.toLowerCase().includes('email already exists')) {
+      if (message.toLowerCase().includes('email already exists')) {
          setError("email", { // Set error specifically on the email field
             type: "manual",
-            message: error.message, // Use message from API
+            message, // Use message from API
          });
       } else {
          // Set a general error
          setError("root.serverError", {
              type: "manual",
-             message: error.message || "Signup failed. Please try again.",
+             message,
          });
       }
     }
