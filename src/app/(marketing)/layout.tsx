@@ -22,16 +22,13 @@ export default function MarketingRootLayout({ // Renamed for clarity
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en"> {/* Add <html> tag */}
-      {/* Apply font and basic flex structure for sticky footer */}
-      <body className={`${inter.className} flex flex-col min-h-screen bg-background text-text`}> {/* Add <body> tag */}
-        <Header />
-        {/* Apply container and padding here if desired for all marketing pages */}
-        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {children} {/* This will render the content from (marketing)/page.tsx */}
-        </main>
-        <Footer />
-      </body>
-    </html>
+    <div className={`${inter.className} flex flex-col min-h-screen bg-background text-text`}>
+      <Header />
+      {/* Apply container and padding here if desired for all marketing pages */}
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {children} {/* This will render the content from (marketing)/page.tsx */}
+      </main>
+      <Footer />
+    </div>
   );
 }
