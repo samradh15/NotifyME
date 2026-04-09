@@ -31,18 +31,31 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const Sidebar: React.FC = () => {
+type SidebarProps = {
+  className?: string;
+  onNavigate?: () => void;
+};
+
+const Sidebar: React.FC<SidebarProps> = ({ className = '', onNavigate }) => {
   const pathname = usePathname(); // Get current path
   const logoutAction = useUserStore((state) => state.logout);
   const user = useUserStore((state) => state.user);
 
   const handleLogout = () => {
     logoutAction();
+    if (onNavigate) {
+      onNavigate();
+    }
     // Redirect handled by Protected Route logic or effect elsewhere
   };
 
   return (
-    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-surface border-r border-border px-6 py-4 w-64"> {/* Fixed width */}
+    <div
+      className={classNames(
+        'flex grow flex-col gap-y-5 overflow-y-auto bg-surface border-border border-b md:border-b-0 md:border-r px-6 py-4 w-full md:w-64',
+        className
+      )}
+    > {/* Fixed width */}
       <div className="flex h-16 shrink-0 items-center">
          {/* App Logo/Name */}
          <Link href="/dashboard" className="text-2xl font-bold text-primary">
@@ -58,6 +71,7 @@ const Sidebar: React.FC = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
+                    onClick={onNavigate}
                     className={classNames(
                       pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href)) // Basic active state logic
                         ? 'bg-surface-alt text-primary'
@@ -86,6 +100,7 @@ const Sidebar: React.FC = () => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
+                      onClick={onNavigate}
                       className={classNames(
                         pathname.startsWith(item.href)
                           ? 'bg-surface-alt text-primary'
@@ -130,3 +145,4 @@ const Sidebar: React.FC = () => {
 };
 
 export default Sidebar;
+export type { SidebarProps };

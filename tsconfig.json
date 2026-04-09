@@ -3,7 +3,11 @@
   "compilerOptions": {
     // Type checking options
     "target": "es5", // Target environment (Next.js handles modern features)
-    "lib": ["dom", "dom.iterable", "esnext"], // Standard libraries included
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ], // Standard libraries included
     "allowJs": true, // Allow JavaScript files to be compiled
     "skipLibCheck": true, // Skip type checking of declaration files (.d.ts)
     "strict": true, // Enable all strict type-checking options
@@ -13,15 +17,15 @@
     "moduleResolution": "bundler", // How modules get resolved (recommended for modern setups)
     "resolveJsonModule": true, // Allows importing JSON files
     "isolatedModules": true, // Ensure each file can be transpiled independently
-    "jsx": "preserve", // Keep JSX as part of the output (Next.js handles transformation)
+    "jsx": "react-jsx", // Keep JSX as part of the output (Next.js handles transformation)
     "incremental": true, // Enable incremental compilation
-
     // Path Aliases Configuration
     "baseUrl": ".", // Sets the base directory for module resolution
     "paths": {
-      "@/*": ["./src/*"] // Maps '@/*' alias to the 'src' directory
+      "@/*": [
+        "./src/*"
+      ] // Maps '@/*' alias to the 'src' directory
     },
-
     // Next.js specific plugin
     "plugins": [
       {
@@ -30,7 +34,15 @@
     ]
   },
   // Files included in the TypeScript project
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
   // Files excluded from the TypeScript project
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

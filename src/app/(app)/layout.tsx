@@ -1,6 +1,6 @@
 // src/app/(app)/layout.tsx
 import React from 'react';
-import Sidebar from '@/components/layout/Sidebar';
+import AppShell from '@/components/layout/AppShell';
 import ProtectedRoute from '../auth/ProtectedRoute'; // Keep using the alias
 
 export default function AppLayout({
@@ -11,12 +11,7 @@ export default function AppLayout({
   return (
      // Wrap with the (now minimal) ProtectedRoute
      <ProtectedRoute>
-       <div className="flex h-screen overflow-hidden bg-background text-text">
-         <Sidebar />
-         <main className="flex-1 overflow-y-auto p-6 md:p-10">
-           {children}
-         </main>
-       </div>
+       <AppShell>{children}</AppShell>
      </ProtectedRoute>
   );
 }
