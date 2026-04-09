@@ -1,11 +1,17 @@
 // src/components/marketing/HowItWorks.tsx
 'use client';
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { ShieldCheckIcon, BellAlertIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 
-const sectionVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5, staggerChildren: 0.2 } } };
-const stepVariants = { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } };
+const sectionVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5, staggerChildren: 0.2, ease: 'easeOut' } },
+};
+const stepVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
 
 const HowItWorks: React.FC = () => {
   return (

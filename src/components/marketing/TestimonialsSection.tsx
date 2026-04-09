@@ -2,17 +2,17 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 // Using UserCircleIcon as a placeholder for avatars
 import { UserCircleIcon, StarIcon } from '@heroicons/react/24/solid';
 
 // Animation variants
-const sectionVariants = {
+const sectionVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.5, staggerChildren: 0.2 } },
+  visible: { opacity: 1, transition: { duration: 0.5, staggerChildren: 0.2, ease: 'easeOut' } },
 };
 
-const testimonialVariants = {
+const testimonialVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
 };

@@ -1,7 +1,7 @@
 // src/components/marketing/FeaturesSection.tsx
 'use client';
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 // Import required icons (add new ones if needed)
 import {
   CpuChipIcon,
@@ -16,9 +16,18 @@ import {
 } from '@heroicons/react/24/outline';
 
 // Animation variants remain the same
-const sectionVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.3, delayChildren: 0.2 } } };
-const itemVariantsLeft = { hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } } };
-const itemVariantsRight = { hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } } };
+const sectionVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.3, delayChildren: 0.2, ease: 'easeOut' } },
+};
+const itemVariantsLeft: Variants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
+const itemVariantsRight: Variants = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+};
 
 // FeatureListItem helper remains the same
 const FeatureListItem: React.FC<{ icon: React.ElementType; children: React.ReactNode; colorClass: string }> = ({ icon: Icon, children, colorClass }) => (
