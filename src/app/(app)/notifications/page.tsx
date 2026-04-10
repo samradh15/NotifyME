@@ -59,7 +59,7 @@ function buildFeedItem(offsetHours = 0): FeedItem {
       : randomBetween(48, 73);
 
   return {
-    id: `agg-${Date.now()}-${Math.round(Math.random() * 1000)}`,
+    id: `agg-${Date.now()}-${Math.random().toString(36).slice(2, 10)}-${Math.floor(Math.random() * 10000)}`,
     headline: pickRandom(headlines),
     source: pickRandom(sources),
     channel: pickRandom(channels),
