@@ -94,7 +94,7 @@ const FeaturesSection: React.FC = () => {
               transition={{ delay: index * 0.1 }}
               className="group relative p-8 rounded-3xl bg-surface border border-border hover:bg-surface-alt transition-all duration-300 hover:shadow-[0_0_30px_rgba(37,99,235,0.1)] overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${feature.color}" />
+              <div className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${feature.color}`} />
               
               <div className={`inline-flex p-3 rounded-2xl bg-background border border-border text-white mb-6 group-hover:scale-110 transition-transform duration-300 relative`}>
                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-20 blur-md rounded-full`} />
