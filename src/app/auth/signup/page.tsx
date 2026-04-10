@@ -1,171 +1,121 @@
-// src/app/auth/signup/page.tsx
 'use client';
 
 import React from 'react';
 import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useRouter } from 'next/navigation';
-import { authService } from '@/services/authService'; // Import the auth service
-
-// Define validation schema with Zod, including password confirmation
-const signupSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }).optional(),
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
-  confirmPassword: z.string(),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
-
-// Infer the type from the schema
-type SignupFormInputs = z.infer<typeof signupSchema>;
+import { useUserStore } from '@/store';
+import { ArrowRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 
 export default function SignupPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-  } = useForm<SignupFormInputs>({
-    resolver: zodResolver(signupSchema),
-  });
-
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const router = useRouter();
+  const loginAction = useUserStore((state) => state.login);
 
-  // Handle form submission using authService
-  const onSubmit: SubmitHandler<SignupFormInputs> = async (data) => {
-    try {
-       // Prepare user data (excluding confirmPassword)
-       const signupData = {
-           name: data.name,
-           email: data.email,
-           password: data.password,
-       };
-      // Call the actual API service
-      await authService.signup(signupData);
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
 
-      console.log("Signup successful");
-      // Redirect to login page after successful signup
-      router.push('/auth/login?signup=success'); // Add query param for potential success message
+    await new Promise((resolve) => setTimeout(resolve, 850));
 
-    } catch (error: unknown) {
-      console.error("Signup page error:", error);
-      const fallbackMessage = "Signup failed. Please try again.";
-      const message = error instanceof Error ? error.message || fallbackMessage : fallbackMessage;
-      // Check for specific error messages (e.g., email exists) from the backend
-      if (message.toLowerCase().includes('email already exists')) {
-         setError("email", { // Set error specifically on the email field
-            type: "manual",
-            message, // Use message from API
-         });
-      } else {
-         // Set a general error
-         setError("root.serverError", {
-             type: "manual",
-             message,
-         });
-      }
-    }
+    const seed = Date.now().toString().slice(-5);
+    const fallbackEmail = `analyst-${seed}@notifyme.demo`;
+    const normalizedEmail = email.trim() || fallbackEmail;
+    const normalizedName = name.trim() || 'Guest Analyst';
+
+    loginAction({
+      id: `demo-${seed}`,
+      email: normalizedEmail,
+      name: normalizedName,
+    });
+
+    router.push('/dashboard');
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 p-10 bg-surface rounded-xl shadow-lg border border-border">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-text">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-text-light">
-            Already have an account?{' '}
-            <Link href="/auth/login" className="font-medium text-primary hover:text-primary-light">
-              Sign in
-            </Link>
-          </p>
+    <section className="relative w-full min-h-[calc(100vh-5rem)] flex items-center justify-center p-4 py-12">
+      {/* Abstract Background */}
+      <div className="absolute inset-0 bg-background overflow-hidden -z-10">
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px]" />
+        <div className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px]" />
+      </div>
+
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-block px-3 py-1 mb-6 rounded-full border border-border bg-surface text-xs font-semibold tracking-widest uppercase text-text-light hover:text-text transition">
+            &larr; Return to Platform
+          </Link>
+          <h1 className="text-3xl font-semibold tracking-tight text-text">Create Workspace</h1>
+          <p className="mt-2 text-sm text-text-light">Provision your scam intelligence dashboard</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-           {errors.root?.serverError && (
-             <div className="rounded-md bg-red-500/10 p-3 text-sm text-severity-critical border border-red-500/30">
-               {errors.root.serverError.message}
-             </div>
-           )}
-          <div className="space-y-4 rounded-md shadow-sm">
+
+        <div className="bg-surface border border-border rounded-2xl p-8 shadow-2xl relative">
+          <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          
+          <div className="mb-6 rounded-xl border border-primary/20 bg-primary/5 p-3 flex gap-3 items-start">
+            <ShieldCheckIcon className="w-4 h-4 text-primary mt-0.5 shrink-0" />
             <div>
-              <label htmlFor="name" className="sr-only">Name (Optional)</label>
-              <input
-                id="name"
-                type="text"
-                autoComplete="name"
-                className={`relative block w-full appearance-none rounded-md border px-3 py-2 text-text placeholder-text-light focus:z-10 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm ${errors.name ? 'border-severity-critical' : 'border-border'} bg-background`}
-                placeholder="Name (Optional)"
-                {...register("name")}
-              />
-              {errors.name && <p className="mt-1 text-xs text-severity-critical">{errors.name.message}</p>}
-            </div>
-            <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
-              <input
-                id="email-address"
-                type="email"
-                autoComplete="email"
-                required
-                className={`relative block w-full appearance-none rounded-md border px-3 py-2 text-text placeholder-text-light focus:z-10 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm ${errors.email ? 'border-severity-critical' : 'border-border'} bg-background`}
-                placeholder="Email address"
-                {...register("email")}
-              />
-              {errors.email && <p className="mt-1 text-xs text-severity-critical">{errors.email.message}</p>}
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Password</label>
-              <input
-                id="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                className={`relative block w-full appearance-none rounded-md border px-3 py-2 text-text placeholder-text-light focus:z-10 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm ${errors.password ? 'border-severity-critical' : 'border-border'} bg-background`}
-                placeholder="Password (min. 8 characters)"
-                {...register("password")}
-              />
-              {errors.password && <p className="mt-1 text-xs text-severity-critical">{errors.password.message}</p>}
-            </div>
-            <div>
-              <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
-              <input
-                id="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                required
-                className={`relative block w-full appearance-none rounded-md border px-3 py-2 text-text placeholder-text-light focus:z-10 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm ${errors.confirmPassword ? 'border-severity-critical' : 'border-border'} bg-background`}
-                placeholder="Confirm Password"
-                {...register("confirmPassword")}
-              />
-              {errors.confirmPassword && <p className="mt-1 text-xs text-severity-critical">{errors.confirmPassword.message}</p>}
+              <p className="text-sm font-semibold text-text">Instant Provisioning</p>
+              <p className="mt-1 text-xs text-text-light text-balance">Demo environments bypass email verification.</p>
             </div>
           </div>
-          <div>
+
+          <form className="space-y-4" onSubmit={onSubmit}>
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-text">Full Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Jane Analyst"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-1 focus:ring-primary shadow-inner"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-text">Work Email</label>
+              <input
+                type="text"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="jane@acme.corp"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-1 focus:ring-primary shadow-inner"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-text">Set Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="••••••••"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-1 focus:ring-primary shadow-inner"
+              />
+            </div>
+
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-accent py-2 px-4 text-sm font-medium text-white hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-sm font-medium text-white transition hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(37,99,235,0.2)] hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
             >
-               {isSubmitting ? (
-                 <>
-                   <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                   </svg>
-                   Creating Account...
-                 </>
-               ) : ( 'Create Account' )}
+              {isSubmitting ? 'Provisioning...' : 'Create Workspace'}
+              <ArrowRightIcon className="h-4 w-4" />
             </button>
+          </form>
+          
+          <div className="mt-8 text-center bg-background/50 -mx-8 -my-8 p-4 pt-4 pb-4 border-t border-border mt-6 rounded-b-2xl">
+             <p className="text-sm text-text-light">
+              Already have an account?{' '}
+              <Link href="/auth/login" className="font-medium text-primary hover:text-primary-light transition">
+                Sign in
+              </Link>
+            </p>
           </div>
-        </form>
-         <p className="mt-4 text-center text-xs text-text-light">
-            By creating an account, you agree to our <Link href="/terms-of-service" className="underline hover:text-primary">Terms of Service</Link> and <Link href="/privacy-policy" className="underline hover:text-primary">Privacy Policy</Link>.
-        </p>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

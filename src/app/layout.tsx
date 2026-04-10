@@ -1,15 +1,15 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Manrope, Sora } from "next/font/google";
 import "./globals.css";
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import RootChrome from '@/components/layout/RootChrome';
 
-const inter = Inter({ subsets: ["latin"] });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const sora = Sora({ subsets: ["latin"], variable: "--font-sora" });
 
 export const metadata: Metadata = {
-  title: "NotifyME - Scam Defense",
-  description: "AI-Powered Real-Time Scam Defense System",
+  title: "NotifyME | Scam Intelligence Platform",
+  description: "Professional scam detection workspace with real-time classification and certified advisories.",
 };
 
 export default function RootLayout({
@@ -19,17 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* Apply dark theme background and default text color */}
       <body
         suppressHydrationWarning
-        className={`${inter.className} flex flex-col min-h-screen bg-background text-text`}
+        className={`${manrope.variable} ${sora.variable} flex min-h-screen flex-col bg-background text-text`}
       >
-        <Header />
-        {/* Container/padding can remain here or be moved to specific pages */}
-        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {children}
-        </main>
-        <Footer />
+        <RootChrome>{children}</RootChrome>
       </body>
     </html>
   );

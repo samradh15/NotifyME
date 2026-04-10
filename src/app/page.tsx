@@ -1,22 +1,20 @@
-// src/app/page.tsx
 import React from 'react';
 import HeroSection from '@/components/marketing/HeroSection';
-import HowItWorks from '@/components/marketing/HowItWorks';
 import FeaturesSection from '@/components/marketing/FeaturesSection';
-import PricingSection from '@/components/marketing/PricingSection';
+import HowItWorks from '@/components/marketing/HowItWorks';
 import TestimonialsSection from '@/components/marketing/TestimonialsSection';
-import FAQSection from '@/components/marketing/FAQSection'; // Import the new component
+import PricingSection from '@/components/marketing/PricingSection';
+import FAQSection from '@/components/marketing/FAQSection';
 
 export default function HomePage() {
   return (
-    <>
+    <div className="flex flex-col bg-background text-text">
       <HeroSection />
-      <HowItWorks />
       <FeaturesSection />
-      <PricingSection />
+      <HowItWorks />
       <TestimonialsSection />
-      <FAQSection /> {/* Add the FAQ section */}
-      {/* Footer will be rendered by the layout */}
-    </>
+      <PricingSection />
+      <FAQSection />
+    </div>
   );
 }

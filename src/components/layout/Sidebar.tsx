@@ -3,30 +3,27 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // To highlight active link
+import { usePathname, useRouter } from 'next/navigation';
 import { useUserStore } from '@/store'; // To display user info / logout
 
-// Import icons for navigation items
 import {
   ChartPieIcon,
   BellIcon,
   Cog6ToothIcon,
-  ArrowLeftOnRectangleIcon,
-  DocumentPlusIcon // For report threat
+  ArrowRightOnRectangleIcon,
+  DocumentPlusIcon,
 } from '@heroicons/react/24/outline';
 
-// Define navigation items
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: ChartPieIcon },
-  { name: 'Notifications', href: '/notifications', icon: BellIcon },
-  { name: 'Report Threat', href: '/report-threat', icon: DocumentPlusIcon },
-  // Add other core navigation items here
-];
-const secondaryNavigation = [
-   { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
+  { name: 'Detector Home', href: '/dashboard', icon: ChartPieIcon },
+  { name: 'Live Aggregator', href: '/notifications', icon: BellIcon },
+  { name: 'Advisory Desk', href: '/report-threat', icon: DocumentPlusIcon },
 ];
 
-// Helper function to combine class names conditionally
+const secondaryNavigation = [
+  { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
+];
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
@@ -37,34 +34,42 @@ type SidebarProps = {
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ className = '', onNavigate }) => {
-  const pathname = usePathname(); // Get current path
+  const pathname = usePathname();
+  const router = useRouter();
   const logoutAction = useUserStore((state) => state.logout);
   const user = useUserStore((state) => state.user);
 
-  const handleLogout = () => {
+  const handleSwitchProfile = () => {
     logoutAction();
+
     if (onNavigate) {
       onNavigate();
     }
-    // Redirect handled by Protected Route logic or effect elsewhere
+
+    router.push('/auth/login');
   };
 
   return (
     <div
       className={classNames(
-        'flex grow flex-col gap-y-5 overflow-y-auto bg-surface border-border border-b md:border-b-0 md:border-r px-6 py-4 w-full md:w-64',
+        'flex w-full grow flex-col gap-y-5 overflow-y-auto border-b border-border bg-surface px-5 py-4 md:w-72 md:border-b-0 md:border-r',
         className
       )}
-    > {/* Fixed width */}
+    >
       <div className="flex h-16 shrink-0 items-center">
-         {/* App Logo/Name */}
-         <Link href="/dashboard" className="text-2xl font-bold text-primary">
-            Notify<span className="text-accent">ME</span>
-         </Link>
+        <Link href="/dashboard" className="text-2xl font-semibold text-text">
+          Notify<span className="text-accent">ME</span>
+        </Link>
       </div>
+
+      <div className="rounded-2xl border border-border bg-background/60 p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-text-light">Workspace mode</p>
+        <p className="mt-1 text-sm font-semibold text-text">Scam Intelligence Demo</p>
+        <p className="mt-1 text-xs text-text-light">Static demo environment with simulated detections.</p>
+      </div>
+
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
-          {/* Main Navigation */}
           <li>
             <ul role="list" className="-mx-2 space-y-1">
               {navigation.map((item) => (
@@ -73,15 +78,17 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '', onNavigate }) => {
                     href={item.href}
                     onClick={onNavigate}
                     className={classNames(
-                      pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href)) // Basic active state logic
-                        ? 'bg-surface-alt text-primary'
-                        : 'text-text-light hover:text-text hover:bg-surface-alt',
-                      'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                      pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
+                        ? 'bg-primary/20 text-primary-light'
+                        : 'text-text-light hover:bg-surface-alt hover:text-text',
+                      'group flex gap-x-3 rounded-xl p-2.5 text-sm font-semibold leading-6 transition'
                     )}
                   >
                     <item.icon
                       className={classNames(
-                         pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href)) ? 'text-primary' : 'text-text-light group-hover:text-text',
+                        pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
+                          ? 'text-primary-light'
+                          : 'text-text-light group-hover:text-text',
                         'h-6 w-6 shrink-0'
                       )}
                       aria-hidden="true"
@@ -93,50 +100,55 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '', onNavigate }) => {
             </ul>
           </li>
 
-          {/* Secondary Navigation (e.g., Settings) */}
-          <li className="mt-auto"> {/* Pushes Settings/Logout to bottom */}
-             <ul role="list" className="-mx-2 space-y-1 mb-4">
-               {secondaryNavigation.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      onClick={onNavigate}
+          <li className="mt-auto">
+            <ul role="list" className="-mx-2 mb-4 space-y-1">
+              {secondaryNavigation.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    onClick={onNavigate}
+                    className={classNames(
+                      pathname.startsWith(item.href)
+                        ? 'bg-primary/20 text-primary-light'
+                        : 'text-text-light hover:bg-surface-alt hover:text-text',
+                      'group flex gap-x-3 rounded-xl p-2.5 text-sm font-semibold leading-6 transition'
+                    )}
+                  >
+                    <item.icon
                       className={classNames(
                         pathname.startsWith(item.href)
-                          ? 'bg-surface-alt text-primary'
-                          : 'text-text-light hover:text-text hover:bg-surface-alt',
-                        'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                          ? 'text-primary-light'
+                          : 'text-text-light group-hover:text-text',
+                        'h-6 w-6 shrink-0'
                       )}
-                    >
-                      <item.icon
-                        className={classNames(
-                          pathname.startsWith(item.href) ? 'text-primary' : 'text-text-light group-hover:text-text',
-                          'h-6 w-6 shrink-0'
-                        )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </Link>
-                  </li>
-               ))}
-             </ul>
+                      aria-hidden="true"
+                    />
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-             {/* Logout Button */}
-             <button
-               onClick={handleLogout}
-               className='group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full text-left text-text-light hover:text-text hover:bg-surface-alt'
-             >
-                <ArrowLeftOnRectangleIcon className="h-6 w-6 shrink-0 text-text-light group-hover:text-text" aria-hidden="true"/>
-                Logout
-             </button>
+            <button
+              onClick={handleSwitchProfile}
+              className="group flex w-full gap-x-3 rounded-xl border border-border/80 p-2.5 text-left text-sm font-semibold leading-6 text-text-light transition hover:bg-surface-alt hover:text-text"
+            >
+              <ArrowRightOnRectangleIcon
+                className="h-6 w-6 shrink-0 text-text-light group-hover:text-text"
+                aria-hidden="true"
+              />
+              Switch Profile
+            </button>
 
-             {/* Optional: Display User Info */}
-             {user && (
-                <div className="mt-4 border-t border-border pt-4">
-                    <p className="text-sm font-medium text-text truncate" title={user.email}>{user.email}</p>
-                    {/* <p className="text-xs text-text-light">User ID: {user.id}</p> */}
-                </div>
-             )}
+            <div className="mt-4 border-t border-border pt-4">
+              <p className="text-xs uppercase tracking-[0.12em] text-text-light">Active analyst</p>
+              <p className="mt-1 truncate text-sm font-medium text-text" title={user?.email || 'demo@notifyme.local'}>
+                {user?.name || user?.email || 'Demo Analyst'}
+              </p>
+              <p className="truncate text-xs text-text-light" title={user?.email || 'demo@notifyme.local'}>
+                {user?.email || 'demo@notifyme.local'}
+              </p>
+            </div>
           </li>
         </ul>
       </nav>

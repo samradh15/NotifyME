@@ -1,135 +1,114 @@
-// src/app/auth/login/page.tsx
 'use client';
 
 import React from 'react';
 import Link from 'next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useUserStore } from '@/store'; // Import Zustand store hook
 import { useRouter } from 'next/navigation';
-import { authService } from '@/services/authService'; // Import the auth service
-
-// Define validation schema with Zod
-const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
-});
-
-// Infer the type from the schema
-type LoginFormInputs = z.infer<typeof loginSchema>;
+import { useUserStore } from '@/store';
+import { ArrowRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 
 export default function LoginPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
-  });
-
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const router = useRouter();
-  const loginAction = useUserStore((state) => state.login); // Get login action from store
+  const loginAction = useUserStore((state) => state.login);
 
-  // Handle form submission using authService
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    try {
-      // Call the actual API service
-      const { user /*, token */ } = await authService.login(data.email, data.password);
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
 
-      console.log("Login successful, user:", user);
-      // Update state using Zustand action with data from API
-      loginAction(user);
-      // Redirect to the dashboard
-      router.push('/dashboard'); // Or redirect based on query params if needed
+    await new Promise((resolve) => setTimeout(resolve, 850));
 
-    } catch (error: unknown) {
-      console.error("Login page error:", error);
-      const fallbackMessage = "Login failed. Please check credentials.";
-      const message = error instanceof Error ? error.message || fallbackMessage : fallbackMessage;
-      // Use error message from the service/API response
-      setError("root.serverError", {
-          type: "manual",
-          message,
-      });
-    }
+    const seed = Date.now().toString().slice(-5);
+    const fallbackEmail = `guest-${seed}@notifyme.demo`;
+    const normalizedEmail = email.trim() || fallbackEmail;
+
+    loginAction({
+      id: `demo-${seed}`,
+      email: normalizedEmail,
+      name: normalizedEmail.split('@')[0],
+    });
+
+    router.push('/dashboard');
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 p-10 bg-surface rounded-xl shadow-lg border border-border">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-text">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-text-light">
-            Or{' '}
-            <Link href="/auth/signup" className="font-medium text-primary hover:text-primary-light">
-              create an account
-            </Link>
-          </p>
+    <section className="relative w-full min-h-[calc(100vh-5rem)] flex items-center justify-center p-4 py-12">
+      {/* Abstract Background */}
+      <div className="absolute inset-0 bg-background overflow-hidden -z-10">
+        <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px]" />
+        <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px]" />
+      </div>
+
+      <div className="w-full max-w-md">
+        <div className="text-center mb-10">
+          <Link href="/" className="inline-block px-3 py-1 mb-6 rounded-full border border-border bg-surface text-xs font-semibold tracking-widest uppercase text-text-light hover:text-text transition">
+            &larr; Return to Platform
+          </Link>
+          <h1 className="text-3xl font-semibold tracking-tight text-text">Sign in to NotifyME</h1>
+          <p className="mt-2 text-sm text-text-light">Access your scam detection workspace</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-           {errors.root?.serverError && (
-             <div className="rounded-md bg-red-500/10 p-3 text-sm text-severity-critical border border-red-500/30">
-               {errors.root.serverError.message}
-             </div>
-           )}
-          <div className="space-y-4 rounded-md shadow-sm">
+
+        <div className="bg-surface border border-border rounded-2xl p-8 shadow-2xl relative">
+          {/* Subtle top border highlight */}
+          <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          
+          <div className="mb-6 rounded-xl border border-primary/20 bg-primary/5 p-4 flex gap-3 items-start">
+            <ShieldCheckIcon className="w-5 h-5 text-primary mt-0.5 shrink-0" />
             <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
-              <input
-                id="email-address"
-                type="email"
-                autoComplete="email"
-                required
-                className={`relative block w-full appearance-none rounded-md border px-3 py-2 text-text placeholder-text-light focus:z-10 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm ${errors.email ? 'border-severity-critical' : 'border-border'} bg-background`}
-                placeholder="Email address"
-                {...register("email")}
-              />
-              {errors.email && <p className="mt-1 text-xs text-severity-critical">{errors.email.message}</p>}
+              <p className="text-sm font-medium text-text">Demo Environment Enabled</p>
+              <p className="mt-1 text-xs text-text-light">Accepting any credentials for staging access. Bypass enabled.</p>
             </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Password</label>
+          </div>
+
+          <form className="space-y-5" onSubmit={onSubmit}>
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-text">Work Email</label>
               <input
-                id="password"
+                type="text"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="analyst@acme.corp"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-1 focus:ring-primary shadow-inner"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium text-text">Password</label>
+                <Link href="/auth/forgot-password" className="text-xs text-text-light hover:text-primary transition">
+                  Forgot?
+                </Link>
+              </div>
+              <input
                 type="password"
-                autoComplete="current-password"
-                required
-                className={`relative block w-full appearance-none rounded-md border px-3 py-2 text-text placeholder-text-light focus:z-10 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm ${errors.password ? 'border-severity-critical' : 'border-border'} bg-background`}
-                placeholder="Password"
-                {...register("password")}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="••••••••"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-text outline-none transition focus:border-primary focus:ring-1 focus:ring-primary shadow-inner"
               />
-               {errors.password && <p className="mt-1 text-xs text-severity-critical">{errors.password.message}</p>}
             </div>
-          </div>
-          <div className="flex items-center justify-end">
-            <div className="text-sm">
-              <Link href="/auth/forgot-password" className="font-medium text-primary hover:text-primary-light">
-                Forgot your password?
-              </Link>
-            </div>
-          </div>
-          <div>
+
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-sm font-medium text-white transition hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(37,99,235,0.2)] hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
             >
-               {isSubmitting ? (
-                 <>
-                   <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                   </svg>
-                   Signing In...
-                 </>
-               ) : ( 'Sign in' )}
+              {isSubmitting ? 'Authenticating...' : 'Sign In'}
+              <ArrowRightIcon className="h-4 w-4" />
             </button>
+          </form>
+          
+          <div className="mt-8 text-center bg-background/50 -mx-8 -my-8 p-4 pt-4 pb-4 border-t border-border mt-8 rounded-b-2xl">
+             <p className="text-sm text-text-light">
+              Need to provision an account?{' '}
+              <Link href="/auth/signup" className="font-medium text-primary hover:text-primary-light transition">
+                Create workspace
+              </Link>
+            </p>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

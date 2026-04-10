@@ -10,8 +10,7 @@ interface ProtectedRouteProps {
 
 // Minimal component that just renders children
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  console.log("--- Minimal ProtectedRoute Rendering ---"); // Add a log
-  return <>{children}</>; // Just pass through children
+  return <>{children}</>;
 };
 
 // Ensure the default export is correct

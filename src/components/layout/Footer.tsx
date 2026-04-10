@@ -4,40 +4,42 @@ import Link from 'next/link';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+
   return (
-    // Use surface background, light text, top border
-    <footer className="bg-surface text-text-light py-8 mt-auto border-t border-border">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6 text-left">
-          {/* About Section */}
+    <footer className="mt-auto border-t border-border/70 bg-background">
+      <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 text-left md:grid-cols-3">
           <div>
-            <h5 className="text-lg font-semibold text-primary mb-3">Notify<span className="text-accent">ME</span></h5>
-            <p className="text-sm">AI-Powered Real-Time Scam Defense.</p>
-            {/* Add social media icons here if needed */}
+            <h5 className="mb-3 text-lg font-semibold text-text">
+              Notify<span className="text-accent">ME</span>
+            </h5>
+            <p className="text-sm text-text-light">
+              Scam intelligence platform for real-time detection, classification, and certified awareness alerts.
+            </p>
           </div>
-          {/* Quick Links */}
+
           <div>
-            <h5 className="text-lg font-semibold text-primary mb-3">Quick Links</h5>
-            <ul className="space-y-2 text-sm">
-              {/* Ensure these links point to correct section IDs or pages */}
-              <li><Link href="/#features" className="hover:text-primary transition-colors">Features</Link></li>
-              <li><Link href="/#how-it-works" className="hover:text-primary transition-colors">How It Works</Link></li>
-              <li><Link href="/#faq" className="hover:text-primary transition-colors">FAQ</Link></li>
+            <h5 className="mb-3 text-lg font-semibold text-text">Explore</h5>
+            <ul className="space-y-2 text-sm text-text-light">
+              <li><Link href="/#platform" className="transition-colors hover:text-primary-light">Platform</Link></li>
+              <li><Link href="/#workflow" className="transition-colors hover:text-primary-light">Workflow</Link></li>
+              <li><Link href="/dashboard" className="transition-colors hover:text-primary-light">Scam Detector</Link></li>
             </ul>
           </div>
-          {/* Legal */}
+
           <div>
-            <h5 className="text-lg font-semibold text-primary mb-3">Legal</h5>
-            <ul className="space-y-2 text-sm">
-              {/* These likely point to placeholder pages for now */}
-              <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+            <h5 className="mb-3 text-lg font-semibold text-text">Access</h5>
+            <ul className="space-y-2 text-sm text-text-light">
+              <li><Link href="/auth/login" className="transition-colors hover:text-primary-light">Demo Login</Link></li>
+              <li><Link href="/auth/signup" className="transition-colors hover:text-primary-light">Create Profile</Link></li>
+              <li><Link href="/privacy-policy" className="transition-colors hover:text-primary-light">Privacy Policy</Link></li>
+              <li><Link href="/terms-of-service" className="transition-colors hover:text-primary-light">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
-        {/* Use border color for divider */}
-        <div className="border-t border-border pt-6 text-sm text-center">
-          &copy; {currentYear} NotifyME. All rights reserved.
+
+        <div className="mt-8 border-t border-border pt-6 text-center text-sm text-text-light">
+          &copy; {currentYear} NotifyME. Scam Intelligence Platform.
         </div>
       </div>
     </footer>

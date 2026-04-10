@@ -4,39 +4,37 @@ import Link from 'next/link';
 
 const Header: React.FC = () => {
   return (
-    // Use surface color for background, add bottom border
-    <header className="bg-surface shadow-md sticky top-0 z-50 border-b border-border">
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Use primary/accent color for brand */}
-        <Link href="/" className="text-2xl font-bold text-primary">
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-xl">
+      <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="text-2xl font-semibold text-text">
           Notify<span className="text-accent">ME</span>
         </Link>
 
-        <div className="hidden md:flex items-center space-x-6">
-          {/* Use default text color, hover with primary */}
-          <Link href="/#features" className="text-text hover:text-primary transition-colors">
-            Features
+        <div className="hidden items-center space-x-6 md:flex">
+          <Link href="/#platform" className="text-sm font-medium text-text-light transition-colors hover:text-text">
+            Platform
           </Link>
-          <Link href="/#how-it-works" className="text-text hover:text-primary transition-colors">
-            How It Works
+          <Link href="/#workflow" className="text-sm font-medium text-text-light transition-colors hover:text-text">
+            Workflow
           </Link>
-          {/* Buttons use primary/accent colors */}
-          <Link href="/auth/login" className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition-colors text-sm font-medium">
-            Login
+          <Link href="/auth/login" className="text-sm font-medium text-text-light transition-colors hover:text-text">
+            Demo Login
           </Link>
-          <Link href="/auth/signup" className="bg-accent text-white px-4 py-2 rounded-md hover:bg-accent-dark transition-colors text-sm font-medium">
-            Sign Up
+          <Link
+            href="/dashboard"
+            className="rounded-xl border border-primary/40 bg-primary/15 px-4 py-2 text-sm font-semibold text-primary-light transition hover:bg-primary/25"
+          >
+            Open Workspace
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <button className="text-text hover:text-primary focus:outline-none">
-            {/* Replace with an actual SVG icon later */}
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-          </button>
+          <Link
+            href="/auth/login"
+            className="rounded-lg border border-border bg-surface px-3 py-1.5 text-sm font-semibold text-text"
+          >
+            Enter
+          </Link>
         </div>
       </nav>
     </header>

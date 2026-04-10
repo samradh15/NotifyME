@@ -10,48 +10,42 @@ const config: Config = {
   // darkMode: 'class', // Optional: Keep if you plan a light/dark toggle later
   theme: {
     extend: {
-      // --- Dark Theme Color Palette ---
       colors: {
-        // Main background and surface colors
         background: {
-          DEFAULT: '#18181b', // dark neutral (zinc-900)
-          alt: '#27272a',     // slightly lighter dark (zinc-800)
+          DEFAULT: '#000000',
+          alt: '#050505',
         },
-        surface: { // For cards, headers, footers etc.
-          DEFAULT: '#27272a', // zinc-800
-          alt: '#3f3f46',     // zinc-700
+        surface: {
+          DEFAULT: '#080808',
+          alt: '#111111',
         },
-        // Text colors
         text: {
-          DEFAULT: '#f4f4f5', // light text (zinc-100)
-          light: '#a1a1aa',   // muted text (zinc-400)
-          inverted: '#18181b', // dark text (zinc-900)
+          DEFAULT: '#ffffff',
+          light: '#a1a1aa',
+          inverted: '#000000',
         },
-        // Accent and brand colors (Keeping previous definitions)
         primary: {
-          DEFAULT: '#3B82F6', // blue-500
-          light: '#60A5FA',  // blue-400
-          dark: '#2563EB',   // blue-600
+          DEFAULT: '#2563eb', // Enterprise blue
+          light: '#3b82f6',
+          dark: '#1d4ed8',
         },
         accent: {
-          DEFAULT: '#10B981', // emerald-500
-          light: '#34D399',  // emerald-400
-          dark: '#059669',   // emerald-600
+          DEFAULT: '#3f3f46',
+          light: '#52525b',
+          dark: '#27272a',
         },
-        // Severity Colors (Keeping previous definitions)
         severity: {
-          critical: '#EF4444', // red-500
-          high:     '#F97316', // orange-500
-          medium:   '#EAB308', // yellow-500
-          low:      '#0EA5E9', // sky-500
+          critical: '#ef4444',
+          high: '#f97316',
+          medium: '#eab308',
+          low: '#3b82f6',
         },
-        // Other utility colors
-        border: '#3f3f46', // zinc-700 (for subtle borders)
-        card: '#27272a',     // zinc-800 (explicit card background)
+        border: '#18181b', // very subtle border (zinc-900)
+        card: '#0a0a0a',
       },
-      // --- Typography/Other Extensions ---
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+        sans: ['var(--font-manrope)', 'ui-sans-serif', 'system-ui'],
+        display: ['var(--font-sora)', 'ui-sans-serif', 'system-ui'],
       },
     },
   },
