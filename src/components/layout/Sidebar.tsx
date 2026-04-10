@@ -57,7 +57,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '', onNavigate }) => {
       )}
     >
       <div className="flex h-16 shrink-0 items-center">
-        <Link href="/dashboard" className="text-2xl font-semibold text-text">
+        <Link href="/" className="text-2xl font-semibold text-text">
           Notify<span className="text-accent">ME</span>
         </Link>
       </div>
