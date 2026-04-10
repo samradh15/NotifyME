@@ -1,124 +1,123 @@
-// src/components/marketing/HeroSection.tsx
 'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import { motion, type Variants } from 'framer-motion';
-import { ShieldCheckIcon } from '@heroicons/react/24/solid'; // Using solid icon
+import { motion } from 'framer-motion';
+import { ShieldCheckIcon, ArrowRightIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 
-// Animated background using Framer Motion (gradient blobs)
 const AnimatedBackground = () => (
-  <motion.div
-    className="absolute inset-0 -z-10 overflow-hidden"
-    aria-hidden="true"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 1.5 }} // Slightly slower fade-in
-  >
-    {/* Blob 1 - Brighter Opacity */}
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 bg-[url('/images/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+    
     <motion.div
-      className="absolute left-1/4 top-1/4 w-[50vw] h-[50vw] bg-gradient-to-br from-primary via-accent to-severity-medium opacity-25 rounded-full blur-3xl" // Increased opacity, different severity color
-      animate={{
-        scale: [1, 1.1, 1],
-        x: [0, 40, 0],
-        y: [0, -30, 0],
-        rotate: [0, 15, 0],
-      }}
-      transition={{
-        duration: 12,
-        repeat: Infinity,
-        repeatType: 'mirror',
-        ease: 'easeInOut',
-      }}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 2, ease: "easeOut" }}
+      className="absolute right-0 top-0 -mr-40 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px]"
     />
-    {/* Blob 2 - Brighter Opacity */}
     <motion.div
-      className="absolute right-1/4 bottom-1/4 w-[40vw] h-[40vw] bg-gradient-to-tr from-severity-high via-primary to-accent opacity-20 rounded-full blur-3xl" // Increased opacity
-      animate={{
-        scale: [1, 1.15, 1],
-        x: [0, -30, 0],
-        y: [0, 20, 0],
-        rotate: [0, -10, 0],
-      }}
-      transition={{
-        duration: 14,
-        repeat: Infinity,
-        repeatType: 'mirror',
-        ease: 'easeInOut',
-      }}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 0.6, scale: 1 }}
+      transition={{ duration: 2, delay: 0.5, ease: "easeOut" }}
+      className="absolute bottom-0 left-0 -ml-40 w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[100px]"
     />
-     {/* Optional: Add a third, smaller blob */}
-     <motion.div
-      className="absolute left-1/2 bottom-1/3 w-[30vw] h-[30vw] bg-gradient-to-tl from-severity-low via-accent to-primary opacity-15 rounded-full blur-3xl"
-      animate={{
-        scale: [1, 1.05, 1],
-        x: [0, -20, 0],
-        y: [0, 15, 0],
-        rotate: [0, 25, 0],
-      }}
-      transition={{
-        duration: 10,
-        repeat: Infinity,
-        repeatType: 'mirror',
-        ease: 'easeInOut',
-      }}
-    />
-  </motion.div>
+  </div>
 );
 
 const HeroSection: React.FC = () => {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.2, ease: 'easeOut' } },
-  };
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-  };
   return (
-    // Add relative and overflow-hidden
-    <motion.section
-      className="relative py-20 md:py-32 text-center lg:text-left bg-background overflow-hidden" // Ensure bg-background is applied
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      {/* Add the animated background component */}
+    <section className="relative min-h-[90vh] flex flex-col justify-center pt-24 pb-16 overflow-hidden bg-background">
       <AnimatedBackground />
 
-      {/* Content needs to be relative to stack above background */}
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
-        <div className="space-y-6">
-          {/* Using primary and accent in heading */}
-          <motion.h1 className="text-4xl md:text-5xl lg:text-6xl font-bold !leading-tight text-text" variants={itemVariants}>
-            Stop Scams in Seconds with <span className="text-primary">Notify</span><span className="text-accent">ME</span> AI Defense
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="text-center max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary-light text-sm font-medium mb-8"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            Next-Gen Scam Intelligence Platform
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-5xl md:text-7xl font-display font-w-[700] tracking-tight text-white mb-6 leading-tight"
+          >
+            Stop evolving scams with{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_30px_rgba(37,99,235,0.4)] block md:inline mt-2 md:mt-0">
+              AI-driven certainty.
+            </span>
           </motion.h1>
-          {/* Use light text for paragraph */}
-          <motion.p className="text-lg md:text-xl text-text-light" variants={itemVariants}>
-            Experience real-time, AI-powered protection against online threats. NotifyME detects and helps you neutralize scams within <span className="font-semibold text-primary">11 seconds</span>.
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg md:text-xl text-text-light mb-10 max-w-2xl mx-auto leading-relaxed"
+          >
+            An enterprise-grade multimodal detection engine that spots phishing, deepfakes, and fraud attempts in under 11 seconds. Secure your infrastructure proactively.
           </motion.p>
-          {/* Buttons use theme colors and gradients */}
-          <motion.div className="flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4" variants={itemVariants}>
-            <Link href="/auth/signup" className="inline-block bg-gradient-to-r from-primary to-blue-600 text-white px-8 py-3 rounded-md text-lg font-semibold hover:from-primary-dark hover:to-blue-700 transition-all shadow-lg transform hover:scale-105"> {/* Gradient Button + hover scale */}
-              Get Started Free
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
+            <Link
+              href="/auth/signup"
+              className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary rounded-xl overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(37,99,235,0.4)]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-light to-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="relative">Start Detection Demo</span>
+              <ArrowRightIcon className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="#how-it-works" className="group relative inline-block bg-surface text-text px-8 py-3 rounded-md text-lg font-semibold hover:text-white transition-colors shadow-md overflow-hidden transform hover:scale-105"> {/* Gradient Hover Button + hover scale */}
-              <span className="absolute inset-0 bg-gradient-to-r from-accent to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              <span className="relative z-10">Learn More</span>
+
+            <Link
+              href="/notifications"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white bg-surface border border-border rounded-xl hover:bg-surface-alt transition-colors"
+            >
+              <ChartBarIcon className="w-5 h-5 text-primary-light" />
+              View Live Telemetry
             </Link>
           </motion.div>
         </div>
-        {/* More dynamic visual */}
-        <motion.div className="hidden lg:block relative aspect-square rounded-lg shadow-xl overflow-hidden" variants={itemVariants}>
-           {/* Background layers */}
-           <div className="absolute inset-0 bg-surface"></div>
-           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20"></div>
-           {/* Icon */}
-           <div className="absolute inset-0 flex items-center justify-center ">
-              <ShieldCheckIcon className="w-1/2 h-1/2 text-primary opacity-80 drop-shadow-lg" />
-           </div>
+
+        <motion.div
+           initial={{ opacity: 0, y: 40 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.7, delay: 0.5 }}
+           className="mt-20 relative mx-auto max-w-5xl rounded-2xl border border-border bg-surface/50 backdrop-blur-sm p-4 shadow-2xl"
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent rounded-2xl pointer-events-none" />
+          <div className="relative rounded-xl overflow-hidden border border-border/50 bg-[#0a0a0a] aspect-[21/9] flex items-center justify-center">
+            {/* Abstract representation of dashboard */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <div className="text-center z-10 space-y-4">
+              <ShieldCheckIcon className="w-16 h-16 text-primary mx-auto opacity-80" />
+              <div className="flex gap-2 justify-center">
+                <div className="w-32 h-2 bg-border rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ x: '-100%' }}
+                    animate={{ x: '100%' }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+                    className="w-1/2 h-full bg-primary"
+                  />
+                </div>
+              </div>
+              <p className="text-sm font-mono text-primary-light uppercase tracking-widest">Scanning network traffic</p>
+            </div>
+          </div>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

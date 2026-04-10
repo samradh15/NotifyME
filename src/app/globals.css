@@ -5,19 +5,43 @@
   --foreground: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
+  --color-background: #000000;
+  --color-background-alt: #050505;
+  
+  --color-surface: #080808;
+  --color-surface-alt: #111111;
+  
+  --color-text: #ffffff;
+  --color-text-light: #a1a1aa;
+  --color-text-inverted: #000000;
+  
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1d4ed8;
+  
+  --color-accent: #3f3f46;
+  --color-accent-light: #52525b;
+  --color-accent-dark: #27272a;
+  
+  --color-severity-critical: #ef4444;
+  --color-severity-high: #f97316;
+  --color-severity-medium: #eab308;
+  --color-severity-low: #3b82f6;
+  
+  --color-border: #18181b;
+  --color-card: #0a0a0a;
+
   --font-sans: var(--font-manrope);
   --font-display: var(--font-sora);
 }
 
 body {
   min-height: 100vh;
-  background-color: var(--background);
+  background-color: var(--color-background);
   background-image: radial-gradient(circle at top right, rgba(37, 99, 235, 0.15), transparent 40%),
                     radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.05), transparent 30%);
-  color: var(--foreground);
+  color: var(--color-foreground);
   font-family: var(--font-manrope), "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -32,6 +56,6 @@ h3,
 }
 
 ::selection {
-  background: rgba(111, 158, 207, 0.3);
-  color: #f4f7fc;
+  background: rgba(37, 99, 235, 0.3);
+  color: #ffffff;
 }
