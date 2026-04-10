@@ -6,8 +6,8 @@ const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="text-2xl font-semibold text-text">
-          Notify<span className="text-accent">ME</span>
+        <Link href="/" className="text-2xl font-bold tracking-tight text-white">
+          NotifyME
         </Link>
 
         <div className="hidden items-center space-x-6 md:flex">

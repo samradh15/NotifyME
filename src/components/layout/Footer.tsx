@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 gap-8 text-left md:grid-cols-3">
           <div>
             <h5 className="mb-3 text-lg font-semibold text-text">
-              Notify<span className="text-accent">ME</span>
+              NotifyME
             </h5>
             <p className="text-sm text-text-light">
               Scam intelligence platform for real-time detection, classification, and certified awareness alerts.
